@@ -121,6 +121,7 @@
 				action="${pageContext.request.contextPath}/admin/account/list?action=create"
 				method="post">
 				<div class="modal-header">
+					<div class="${check == false ? "alert alert-danger" : "d-none"}" role="alert"><p class="text-center">${thongBao}</p></div>
 					<h4 class="modal-title">Thêm tài khoản</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
@@ -155,11 +156,6 @@
 					<input type="button" class="btn btn-default" data-dismiss="modal"
 						value="Cancel"> <input type="submit"
 						class="btn btn-success" value="Add">
-
-
-
-
-
 				</div>
 			</form>
 		</div>
@@ -262,7 +258,7 @@
 										function() {
 											var id = $(this).parent().find(
 													"#id").val();
-											alert(id);
+											//alert(id);
 											$
 													.ajax({
 														type : 'GET',

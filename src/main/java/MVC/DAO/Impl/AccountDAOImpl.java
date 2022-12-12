@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import MVC.DAO.IAccountDAO;
@@ -58,7 +59,7 @@ public class AccountDAOImpl extends DBConnection implements IAccountDAO {
 	@Override
 	public void registerAccount(String username, String password, String email) {
 		try {
-			String sql = "Insert Into TaiKhoan(TaiKhoan,MatKhau,Email,NgayTao,MaVaiTro, TinhTrang) Values (?, ?, ?, Cast(GETDATE() as Date), 3, 1)";
+			String sql = "Insert Into TaiKhoan(TaiKhoan,MatKhau,Email,NgayTao,MaVaiTro,TinhTrang) Values (?, ?, ?, Cast(GETDATE() as Date), 3, 1)";
 			Connection conn = super.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
@@ -108,7 +109,7 @@ public class AccountDAOImpl extends DBConnection implements IAccountDAO {
 	public static void main(String args[]) {
 		IAccountDAO dao = new AccountDAOImpl();
 		AccountModel ac = new AccountModel();
-		dao.resetPassword("tester", "tester@gmail.com", "456");
+		//dao.insert(ac.setUserName("hello"), ac.setPassWord("ok"), ac.setEmail("logo"), ac.setCreatedDate(Date.parse("15/12/2019")),ac.setRoleId(1), ac.setStatus(0) );
 	}
 
 	@Override

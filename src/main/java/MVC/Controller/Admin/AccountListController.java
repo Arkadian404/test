@@ -48,8 +48,6 @@ public class AccountListController extends HttpServlet {
 			doPost_Delete(req, resp);
 		} else if (action.equalsIgnoreCase("update")) {
 			doPost_Update(req, resp);
-		}else if(action.equalsIgnoreCase("search")) {
-			doPost_Search(req, resp);
 		}
 	}
 
@@ -95,6 +93,7 @@ public class AccountListController extends HttpServlet {
 	protected void doPost_Create(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		AccountModel account = new AccountModel();
+		PrintWriter out = resp.getWriter();
 		try {
 			req.setCharacterEncoding("utf-8");
 			resp.setContentType("text/html");
@@ -108,9 +107,19 @@ public class AccountListController extends HttpServlet {
 			Date date = new Date(formatter.parse(ngayTao).getTime());
 			account.setCreatedDate(date);
 			account.setRoleId(Integer.parseInt(req.getParameter("roleId")));
-			account.setStatus(Integer.parseInt(req.getParameter("tinhTrang")));
-			accountService.insert(account);
-			resp.sendRedirect(req.getContextPath() + "/admin/account/list");
+			account.setStatus(Integer.parseInt(req.getParameter("status")));
+			if(!accountService.checkDuplicateUsername(account.getUserName()))
+			{
+				accountService.insert(account);
+			}
+			else
+			{
+				   out.println("<script type=\"text/javascript\">");
+				   out.println("alert('Tên tài khoản hoặc email bị trùng');");
+				   out.println("</script>");
+				}
+			doGet_All(req,resp);
+			//resp.sendRedirect(req.getContextPath() + "/admin/account/list");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -153,12 +162,6 @@ public class AccountListController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	protected void doPost_Search(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-	}
-
 
 	public static void main(String args[]) {
 	}
