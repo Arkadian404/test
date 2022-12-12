@@ -258,7 +258,7 @@
 
 		$('table .edit').on('click', function() {
 			var id = $(this).parent().find("#id").val();
-			alert(id)
+			//alert(id)
 			$.ajax({
 				type : 'GET',
 				url : '${pageContext.request.contextPath}/admin/staff/list',

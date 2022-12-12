@@ -37,6 +37,9 @@ public class StaffListController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html");
+		resp.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
 		if (action.equalsIgnoreCase("create")) {
 			doPost_Create(req, resp);

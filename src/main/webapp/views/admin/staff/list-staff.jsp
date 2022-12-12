@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-sm-2">
 						<form class="form-inline"
-							action="${pageContext.request.contextPath}/admin/staff/search?action=account&index=1"
+							action="${pageContext.request.contextPath}/admin/staff/search?action=staff&index=1"
 							method="post">
 							<div class="input-group input-group-sm">
 								<input type="text" value="${txtSearch}" name="txtSearch"
@@ -130,7 +130,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Họ tên</label> <input type="hidden" name="staffName"
+						<label>Họ tên</label> <input type="text" name="staffName"
 							id="staffName" class="form-control" required>
 					</div>
 					<div class="form-group">
@@ -261,7 +261,7 @@
 
 		$('table .edit').on('click', function() {
 			var id = $(this).parent().find("#id").val();
-			alert(id)
+			//alert(id)
 			$.ajax({
 				type : 'GET',
 				url : '${pageContext.request.contextPath}/admin/staff/list',

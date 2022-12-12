@@ -36,8 +36,11 @@ public class RegisterController extends HttpServlet {
 			if (accountService.checkDuplicateUsername(username)==false && password.equals(confirmedPassword)) {
 				accountService.registerAccount(username, confirmedPassword, email);
 				check=true;
-				resp.sendRedirect(req.getContextPath() + "/common/login");
-				//req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+				thongBao ="Đăng ký thành công";
+				req.setAttribute("thongBao", thongBao);
+				req.setAttribute("check", check);
+				//resp.sendRedirect(req.getContextPath() + "/common/login");
+				req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
 			} else {
 				check=false;
 				thongBao ="Đăng ký thất bại, hãy kiểm tra lại tài khoản hoặc email";

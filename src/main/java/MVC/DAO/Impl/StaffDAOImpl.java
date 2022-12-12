@@ -1,8 +1,10 @@
 package MVC.DAO.Impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,7 +162,7 @@ public class StaffDAOImpl extends DBConnection implements IStaffDAO  {
 		try {
 			Connection conn = new DBConnection().getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, index);
+			ps.setInt(1, (index-1)*3);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
@@ -172,6 +174,7 @@ public class StaffDAOImpl extends DBConnection implements IStaffDAO  {
 				staff.setStaffPhone(rs.getString(5));
 				staff.setSalaryID(rs.getString(6));
 				staff.setAccountID(rs.getInt(7));
+				staff.setStatus(rs.getInt(8));
 				staffs.add(staff);
 			}
 		} catch(Exception e) {
@@ -233,7 +236,6 @@ public class StaffDAOImpl extends DBConnection implements IStaffDAO  {
 		}
 		return 0;
 	}
-	
 	
 	
 	

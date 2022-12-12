@@ -147,10 +147,10 @@ public class AdminSearchController extends HttpServlet {
 			if(count%pageSize!=0) {
 				endPage++;
 			}
-			List<StaffModel> accountList = staffService.searchByStaffName(txtSearch, index, pageSize);
+			List<StaffModel> staffList = staffService.searchByStaffName(txtSearch, index, pageSize);
 			System.out.print(count+"\n"+index+"\n"+txtSearch+"\n");
 			req.setAttribute("txtSearch", txtSearch);
-			req.setAttribute("accountList", accountList);
+			req.setAttribute("staffList", staffList);
 			req.setAttribute("index", index);
 			req.setAttribute("endPage", endPage);
 			req.getRequestDispatcher("/views/admin/staff/search-staff.jsp").forward(req, resp);

@@ -6,7 +6,7 @@
 <div class="container w-50 mx-auto mt-5 mb-5">
 	<form action="${loginController}" method="post"
 		class="border border-primary p-3 mb-5 shadow-lg bg-white rounded">
-		<div class="${check == false ? "alert alert-danger" : "d-none"}" role="alert"><p class="text-center">${thongBao}</p></div>
+		<div class="${check == true ? "alert alert-warning" : "d-none"}" role="alert"><p class="text-center">${thongBao}</p></div>
 		<div class="text-center mb-3 bg-black"><p class="fw-bold fs-2">Đăng nhập vào hệ thống</p></div>
 		<div class="form-group">
 			<label class="ml-2" for="username">Tên tài khoản</label> <input

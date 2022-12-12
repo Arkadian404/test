@@ -41,10 +41,10 @@ public class LoginController extends HttpServlet {
 					int adminId = accountServices.findAdminId(username);
 					session.setAttribute("adminId", adminId);
 				}
-				check = true;
+				check = false;
 				resp.sendRedirect(req.getContextPath() + "/home");
 			} else {
-				check = false;
+				check = true;
 				thongBao = "Đăng nhập thất bại hãy kiểm tra lại tài khoản hoặc mật khẩu";
 				req.setAttribute("thongBao", thongBao);
 				req.setAttribute("check", check);

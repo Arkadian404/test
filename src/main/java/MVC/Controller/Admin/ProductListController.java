@@ -23,6 +23,9 @@ public class ProductListController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html");
+		resp.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
 		if (action == null) {
 			doGet_All(req, resp);
@@ -34,6 +37,9 @@ public class ProductListController extends HttpServlet {
 	}
 
 	protected void doGet_Find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html");
+		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("application/json");
 		ProductModel product;
 		try {
@@ -50,15 +56,15 @@ public class ProductListController extends HttpServlet {
 
 	protected void doGet_All(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			
+
 			String indexPage = req.getParameter("index");
-			if(indexPage == null) {
-				indexPage="1";
+			if (indexPage == null) {
+				indexPage = "1";
 			}
 			int index = Integer.parseInt(indexPage);
 			int count = productService.countAll();
-			int endPage = count/3;
-			if(count%3!=0) {
+			int endPage = count / 3;
+			if (count % 3 != 0) {
 				endPage++;
 			}
 			List<ProductModel> productList = productService.pagingProduct(index);
@@ -73,6 +79,9 @@ public class ProductListController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html");
+		resp.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
 		if (action.equalsIgnoreCase("create")) {
 			doPost_Create(req, resp);
@@ -82,8 +91,9 @@ public class ProductListController extends HttpServlet {
 			doPost_Update(req, resp);
 		}
 	}
-	
-	protected void doPost_Create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void doPost_Create(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		ProductModel product = new ProductModel();
 		try {
 			req.setCharacterEncoding("utf-8");
@@ -102,8 +112,10 @@ public class ProductListController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	protected void doPost_Update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void doPost_Update(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		PrintWriter out = resp.getWriter();
 		try {
 			req.setCharacterEncoding("utf-8");
 			resp.setContentType("text/html");
@@ -119,17 +131,28 @@ public class ProductListController extends HttpServlet {
 			product.setProductStatus(Integer.parseInt(req.getParameter("productStatus")));
 			product.setCategoryID(Integer.parseInt(req.getParameter("categoryID")));
 			productService.edit(product);
-			resp.sendRedirect(req.getContextPath() + "/admin/product/list");
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Sửa thông tin sản phẩm thành công!');");
+			out.println("</script>");
+			doGet_All(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Sửa thông tin sản phẩm thất bại!');");
+			out.println("</script>");
 		}
 	}
-	
-	protected void doPost_Delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void doPost_Delete(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		PrintWriter out = resp.getWriter();
 		try {
 			int productID = Integer.parseInt(req.getParameter("id"));
 			productService.delete(productID);
-			resp.sendRedirect(req.getContextPath() + "/admin/product/list");
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Chuyển đổi trạng thái của sản phẩm thành công!');");
+			out.println("</script>");
+			doGet_All(req,resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

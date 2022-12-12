@@ -373,7 +373,7 @@ public class ProductWebDAOImpl extends DBConnection implements IProductWebDAO {
 
 	@Override
 	public void delete(int id) {
-		String sql = "Delete from SanPham where MaSP=?";
+		String sql = "update SanPham set TinhTrang = 0 where MaSP = ?";
 		try {
 			Connection conn = super.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);

@@ -41,6 +41,9 @@ public class AccountListController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html");
+		resp.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
 		if (action.equalsIgnoreCase("create")) {
 			doPost_Create(req, resp);
@@ -111,6 +114,9 @@ public class AccountListController extends HttpServlet {
 			if(!accountService.checkDuplicateUsername(account.getUserName()))
 			{
 				accountService.insert(account);
+				out.println("<script type=\"text/javascript\">");
+				   out.println("alert('Tạo tài khoản thành công!');");
+				   out.println("</script>");
 			}
 			else
 			{
