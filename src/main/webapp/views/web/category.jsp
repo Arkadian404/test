@@ -18,7 +18,7 @@
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="home">Home</a></li>
-					<li class="breadcrumb-item"><a href="category">Category</a></li>
+					<li class="breadcrumb-item"><a href="category?categoryID=0">Category</a></li>
 					<li class="breadcrumb-item active" aria-current="page">Sub-category</li>
 				</ol>
 			</nav>
@@ -34,8 +34,10 @@
 				</div>
 				<ul class="list-group category_block">
 					<c:forEach items="${listCate}" var="list">
-						<li class="list-group-item ${tagActive==list.categoryID ? "active" : ""}"><a
-							href="category?categoryID=${list.categoryID}">${list.categoryName}</a></li>
+						<c:if test="${list.status != 0}">
+							<li class="list-group-item ${tagActive==list.categoryID ? "active" : ""}"><a
+								href="category?categoryID=${list.categoryID}">${list.categoryName}</a></li>
+						</c:if>
 					</c:forEach>
 				</ul>
 			</div>
@@ -46,31 +48,72 @@
 					<img class="img-fluid" src="${top.productImage}" />
 					<h5 class="card-title text-center">${top.productName}</h5>
 					<p class="card-text">${top.productDescription}</p>
-					<p class="bloc_left_price">${top.productPrice } vnd</p>
+					<c:choose>
+						<c:when test="${top.productStatus == 1 && top.productAmount >0}">
+							<p class="bloc_left_price">${top.productPrice }vnd</p>
+						</c:when>
+						<c:when test="${top.productStatus == 0 && top.productAmount >0}">
+							<p class="bloc_left_price">Không còn kinh doanh</p>
+						</c:when>
+						<c:otherwise>
+							<p class="bloc_left_price">Hết hàng</p>
+						</c:otherwise>
+					</c:choose>
+
 				</div>
 			</div>
 		</div>
 		<div class="col">
 			<div class="row gy-3">
-				<c:forEach items="${list}" var="l">
-					<div class="col-lg d-flex align-items-stretch">
-						<div class="card">
-							<img class="card-img-top mb-4" src="${l.productImage}"
-								alt="${l.productDescription }"
-								style="max-height:30vh;">
-							<div class="card-body d-flex flex-column">
-								<h4 class="card-title">
-									<a class="text-break" href="product?productID=${l.productID}"
-										title="View Product">${l.productName }</a>
-								</h4>
-								<h5 class="card-subtitle mb-4 text-muted ">${l.productPrice} vnd</h5>
-								<p class="card-text">${l.productDescription }</p>
-								<a href="#" class="btn mt-auto align-self-start btn-success btn-block">Add
-									to cart</a>
+				<c:set var="total" value="${fn:length(list)}" />
+				<c:choose>
+					<c:when test="${total==0}">
+						<h2 class="m-auto">Không có sản phẩm nào cả!</h2>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${list}" var="l">
+							<div class="col-lg d-flex align-items-stretch">
+								<div class="card">
+									<img class="card-img-top mb-4" src="${l.productImage}"
+										alt="${l.productDescription }" style="max-height: 30vh;">
+									<div class="card-body d-flex flex-column">
+										<h4 class="card-title">
+											<a class="text-break" href="product?productID=${l.productID}"
+												title="View Product">${l.productName }</a>
+										</h4>
+										<c:choose>
+											<c:when test="${l.productStatus == 1 && l.productAmount >0}">
+												<h5 class="card-subtitle mb-4 text-muted ">${l.productPrice}
+													vnd</h5>
+												<p class="card-text">${l.productDescription }</p>
+												<a href="#"
+													class="btn mt-auto align-self-start btn-success btn-block">Add
+													to cart</a>
+											</c:when>
+											<c:when test="${l.productStatus == 0 && l.productAmount >0}">
+												<h5 class="card-subtitle mb-4 text-muted ">Không còn
+													kinh doanh</h5>
+												<p class="card-text">${l.productDescription }</p>
+												<a href="#"
+													class="btn mt-auto align-self-start btn-success btn-block disabled"
+													role="button" aria-disabled="true">Add
+													to cart</a>
+											</c:when>
+											<c:otherwise>
+												<h5 class="card-subtitle mb-4 text-muted ">Hết hàng</h5>
+												<p class="card-text">${l.productDescription }</p>
+												<a href="#"
+													class="btn mt-auto align-self-start btn-success btn-block disabled"
+													role="button" aria-disabled="true">Add
+													to cart</a>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-				</c:forEach>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 				<div class="col-12 mt-4">
 					<nav aria-label="...">
 						<ul class="pagination">

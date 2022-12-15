@@ -397,5 +397,22 @@ public class AccountDAOImpl extends DBConnection implements IAccountDAO {
 		}
 		return isValid;
 	}
+
+	@Override
+	public int findSellerId(String username) {
+		try {
+			String sql = "select * from TaiKhoan as tk inner join NguoiBanHang as bh on tk.MaTK = bh.MaTK where tk.TaiKhoan = ?";
+			Connection conn = super.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getInt("MaNBH");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 }

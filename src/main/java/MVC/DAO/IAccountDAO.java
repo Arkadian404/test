@@ -13,6 +13,7 @@ public interface IAccountDAO {
 	void resetPassword(String username, String email, String password);
 	int findAdminId(String username);
 	int findAccountId(String username);
+	int findSellerId(String username);
 	AccountModel findByUserNameAndEmail(String username, String email);
 	void delete(int MaTK);
 	void edit(AccountModel account);

@@ -56,6 +56,7 @@
 						<th style="text-align: center;">Ảnh</th>
 						<th style="text-align: center;">Tình trạng</th>
 						<th style="text-align: center;">Mã danh mục</th>
+						<th style="text-align: center;">Mã NBH</th>
 						<th style="text-align: center;">Actions</th>
 					</tr>
 				</thead>
@@ -69,9 +70,10 @@
 							<td style="text-align: center;">${list.productDescription}</td>
 							<td style="text-align: center;"><img
 								src="${list.productImage}" alt=""
-								style="width: 200px; height: auto;"></td>
+								style="max-width: 175px; height: auto;"></td>
 							<td style="text-align: center;">${list.productStatus}</td>
 							<td style="text-align: center;">${list.categoryID}</td>
+							<td style="text-align: center;">${list.sellerID}</td>
 							<td><a href="#editProductModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
 									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
@@ -160,6 +162,10 @@
 						<label>Mã danh mục</label> <input type="text" name="categoryID"
 							id="categoryID" class="form-control" required>
 					</div>
+					<div class="form-group">
+						<label>Mã NBH</label> <input type="text" name="sellerID"
+							id="sellerID" class="form-control" required>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal"
@@ -210,6 +216,10 @@
 					<div class="form-group">
 						<label>Mã danh mục</label> <input type="text" name="categoryID"
 							id="categoryID" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Mã NBH</label> <input type="text" name="sellerID"
+							id="sellerID" class="form-control" required>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -314,6 +324,10 @@
 																	'#editProductModal #categoryID')
 																	.val(
 																			result.categoryID);
+															$(
+																	'#editProductModal #sellerID')
+																	.val(
+																			result.sellerID);
 														}
 													});
 										});

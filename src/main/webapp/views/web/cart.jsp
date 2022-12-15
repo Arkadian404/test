@@ -8,6 +8,13 @@
      </div>
 </section>
 
+<c:if test="${cart == null }">
+	<h1>Bạn chưa mua gì cả </h1>
+</c:if>
+<c:if test="${cart.size() == 0 }">
+	<h1>Bạn chưa mua gì cả </h1>
+</c:if>
+<c:if test="${cart != null}">
 <div class="container mb-4">
     <div class="row">
         <div class="col-12">
@@ -88,3 +95,4 @@
         </div>
     </div>
 </div>
+</c:if>

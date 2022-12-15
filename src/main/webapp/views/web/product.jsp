@@ -16,7 +16,8 @@
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/">Home</a></li>
-					<li class="breadcrumb-item"><a href="<%=request.getContextPath()%>/category?categoryID=0">Category</a></li>
+					<li class="breadcrumb-item"><a
+						href="<%=request.getContextPath()%>/category?categoryID=0">Category</a></li>
 					<li class="breadcrumb-item active" aria-current="page">Product</li>
 				</ol>
 			</nav>
@@ -44,11 +45,24 @@
 					<div class="d-flex justify-content-center">
 						<h2 class="text-center">${productByID.productName}</h2>
 					</div>
-					<p class="price">${productByID.productPrice} vnd</p>
-					<p class="price_discounted">${productByID.productPrice * 1.2} vnd</p>
+					<c:choose>
+						<c:when
+							test="${productByID.productStatus == 1 && productByID.productAmount >0}">
+							<p class="price">${productByID.productPrice}vnd</p>
+							<p class="price_discounted mb-4">${productByID.productPrice * 1.2}
+								vnd</p>
+						</c:when>
+						<c:when
+							test="${productByID.productStatus == 0 && productByID.productAmount >0}">
+							<p class="price mb-4">Không còn kinh doanh</p>
+						</c:when>
+						<c:otherwise>
+							<p class="price m-4">Hết hàng</p>
+						</c:otherwise>
+					</c:choose>
 					<form method="get" action="cart.html">
 						<div class="form-group">
-							<label>Quantity: ${productByID.productAmount }</label>
+							<label>Số lượng: ${productByID.productAmount}</label>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<button type="button"
@@ -70,7 +84,7 @@
 							</div>
 						</div>
 						<a href="cart.html"
-							class="btn btn-success btn-lg btn-block text-uppercase"> <i
+							class="${productByID.productStatus != 0 ? "btn btn-success btn-lg btn-block text-uppercase" : "btn btn-success btn-lg btn-block text-uppercase disabled" } "> <i
 							class="fa fa-shopping-cart"></i> Add To Cart
 						</a>
 					</form>
@@ -143,7 +157,7 @@
 						<p class="blockquote">
 						<p class="mb-0">Lorem ipsum dolor sit amet, consectetur
 							adipiscing elit. Integer posuere erat a ante.</p>
-						</p>		
+						</p>
 						<hr>
 					</div>
 				</div>

@@ -12,6 +12,10 @@ public interface IProductWebServices {
 	List<ProductModel> getTop4Product();
 	List<ProductModel> selectAll();
 	List<ProductModel> getAllByCateID(String id);
+	List<ProductModel> findAllBySellerId(int sellerId);
+	List<ProductModel> seller3LastProduct(int sellerId);
+	List<ProductModel> sellerTop4Product(int sellerId);
+	ProductModel sellerTopProduct(int sellerId);
 	//List<ProductModel> findAllPage(int index);
 	ProductModel topProduct();
 	ProductModel getProductByID(String id);
@@ -21,6 +25,9 @@ public interface IProductWebServices {
 	int countByProductNameSearch(String txt);
 	List<ProductModel> searchByProductName(String txt, int index, int pageSize);
 	List<ProductModel> pagingProduct(int index);
+	List<ProductModel> pagingProduct(int sellerId, int index);
 	List<ProductModel> pagingProductByCateID(int id, int index);
+	List<ProductModel> pagingProductBySellerID(int sellerId, int categoryId,  int index);
 	List<ProductModel> select3LastProduct();
+	public int countAllBySellerID(int sellerId);
 }

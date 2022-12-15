@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="row">
-							<a href="<%=request.getContextPath()%>/admin/product/list"
+							<a href="<%=request.getContextPath()%>/seller/manage"
 								style="margin-right: 20px;"> <svg
 									xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-arrow-return-left"
@@ -23,7 +23,11 @@
 							</h2>
 						</div>
 					</div>
-					<div class="col-sm-4"></div>
+					<div class="col-sm-4">
+						<a href="#addProductModal" class="btn btn-success"
+							data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm
+								sản phẩm</span></a>
+					</div>
 					<div class="col-sm-2">
 						<form class="form-inline"
 							action="${pageContext.request.contextPath}/admin/product/search?action=product&index=1"
@@ -57,7 +61,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${productList}" var="list">
+					<c:forEach items="${sellerProductList}" var="list">
 						<tr>
 							<td style="text-align: center;">${list.productID}</td>
 							<td style="text-align: center;">${list.productName}</td>
@@ -88,16 +92,16 @@
 				<ul class="pagination">
 					<c:if test="${index > 1}">
 						<li class="page-item disabled"><a
-							href="${pageContext.request.contextPath}/admin/product/search?action=product&index=${index-1}&txtSearch=${txtSearch}">Previous</a></li>
+							href="${pageContext.request.contextPath}/seller/product/list?index=${index-1}">Previous</a></li>
 					</c:if>
 					<c:forEach begin="1" end="${endPage}" var="i">
 						<li class="page-item ${index ==i ?"active" : "" }"><a
-							href="${pageContext.request.contextPath}/admin/product/search?action=product&index=${i}&txtSearch=${txtSearch}"
+							href="${pageContext.request.contextPath}/seller/product/list?index=${i}"
 							class="page-link">${i}</a></li>
 					</c:forEach>
 					<c:if test="${index < endPage }">
 						<li class="page-item"><a
-							href="${pageContext.request.contextPath}/admin/product/search?action=product&index=${index+1}&txtSearch=${txtSearch}"
+							href="${pageContext.request.contextPath}/seller/product/list?index=${index+1}"
 							class="page-link">Next</a></li>
 					</c:if>
 					<!---<c:if test="${index >1}">
@@ -122,7 +126,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form
-				action="${pageContext.request.contextPath}/admin/product/list?action=create"
+				action="${pageContext.request.contextPath}/seller/product/list?action=create"
 				method="post">
 				<div class="modal-header">
 					<h4 class="modal-title">Thêm sản phẩm</h4>
@@ -177,7 +181,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form
-				action="${pageContext.request.contextPath}/admin/product/list?action=update"
+				action="${pageContext.request.contextPath}/seller/product/list?action=update"
 				method="post">
 				<div class="modal-header">
 					<h4 class="modal-title">Sửa sản phẩm</h4>
@@ -232,7 +236,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form
-				action="${pageContext.request.contextPath}/admin/product/list?action=delete"
+				action="${pageContext.request.contextPath}/seller/product/list?action=delete"
 				method="post">
 				<div class="modal-header">
 					<h4 class="modal-title">Xóa sản phẩm</h4>
@@ -275,11 +279,11 @@
 										function() {
 											var id = $(this).parent().find(
 													"#id").val();
-											/*alert(id);*/
+											//alert(id);
 											$
 													.ajax({
 														type : 'GET',
-														url : '${pageContext.request.contextPath}/admin/product/list',
+														url : '${pageContext.request.contextPath}/seller/product/list',
 														data : {
 															action : 'find',
 															id : id

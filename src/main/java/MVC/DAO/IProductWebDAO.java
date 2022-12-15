@@ -11,16 +11,23 @@ public interface IProductWebDAO {
 	
 	List<ProductModel> selectAll();
 	List<ProductModel> getTop4Product();
+	List<ProductModel> sellerTop4Product(int sellerId);
 	ProductModel topProduct();
+	ProductModel sellerTopProduct(int sellerId);
 	List<ProductModel> getAllByCateID(String cateID);
 	ProductModel getProductByID(String id);
 	ProductModel findByID(int id);
+	List<ProductModel> findAllBySellerId(int sellerId);
 	//List<ProductModel> findAllPage(int index);
 	int countAll();
 	int countByProductNameSearch(String txt);
 	int countByCategoryID(int id);
 	List<ProductModel>searchByProductName(String txt, int index, int pageSize);
 	List<ProductModel> pagingProduct(int index);
+	List<ProductModel> pagingProduct(int sellerId, int index);
 	List<ProductModel> pagingProductByCateID(int id, int index);
+	List<ProductModel> pagingProductBySellerID(int sellerId, int categoryId,  int index);
 	List<ProductModel> select3LastProduct();
+	List<ProductModel> seller3LastProduct(int sellerId);
+	int countAllBySellerID(int sellerId);
 }

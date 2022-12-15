@@ -113,4 +113,10 @@ public class AccountServicesImpl implements IAccountServices {
 		// TODO Auto-generated method stub
 		return accountDAO.checkValidEmail(email);
 	}
+
+	@Override
+	public int findSellerId(String username) {
+		// TODO Auto-generated method stub
+		return accountDAO.findSellerId(username);
+	}
 }

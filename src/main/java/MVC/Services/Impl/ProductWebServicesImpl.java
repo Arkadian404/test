@@ -110,4 +110,47 @@ public class ProductWebServicesImpl implements IProductWebServices {
 		// TODO Auto-generated method stub
 		return productDAO.countByProductNameSearch(txt);
 	}
+
+	@Override
+	public List<ProductModel> findAllBySellerId(int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.findAllBySellerId(sellerId);
+	}
+
+	@Override
+	public List<ProductModel> seller3LastProduct(int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.seller3LastProduct(sellerId);
+	}
+
+	@Override
+	public List<ProductModel> sellerTop4Product(int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.sellerTop4Product(sellerId);
+	}
+
+	@Override
+	public ProductModel sellerTopProduct(int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.sellerTopProduct(sellerId);
+	}
+
+
+	@Override
+	public List<ProductModel> pagingProduct(int sellerId, int index) {
+		// TODO Auto-generated method stub
+		return productDAO.pagingProduct(sellerId, index);
+	}
+
+	@Override
+	public List<ProductModel> pagingProductBySellerID(int sellerId, int categoryId, int index) {
+		// TODO Auto-generated method stub
+		return productDAO.pagingProductBySellerID(sellerId, categoryId, index);
+	}
+	
+	@Override
+	public int countAllBySellerID(int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.countAllBySellerID(sellerId);
+	}
 }

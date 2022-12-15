@@ -1,4 +1,4 @@
-package MVC.Controller.Admin;
+package MVC.Controller.Seller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -16,9 +17,10 @@ import MVC.Models.ProductModel;
 import MVC.Services.IProductWebServices;
 import MVC.Services.Impl.ProductWebServicesImpl;
 
-@WebServlet(urlPatterns = { "/admin/product/list" })
-public class ProductListController extends HttpServlet {
+@WebServlet(urlPatterns= {"/seller/product/list"})
+public class SellerProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	IProductWebServices productService = new ProductWebServicesImpl();
 
 	@Override
@@ -56,22 +58,23 @@ public class ProductListController extends HttpServlet {
 
 	protected void doGet_All(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-
+			HttpSession session = req.getSession();
+			int sellerId = (int)session.getAttribute("sellerId");
 			String indexPage = req.getParameter("index");
 			if (indexPage == null) {
 				indexPage = "1";
 			}
 			int index = Integer.parseInt(indexPage);
-			int count = productService.countAll();
+			int count = productService.countAllBySellerID(sellerId);
 			int endPage = count / 3;
 			if (count % 3 != 0) {
 				endPage++;
 			}
-			List<ProductModel> productList = productService.pagingProduct(index);
+			List<ProductModel> sellerProductList = productService.pagingProduct(sellerId, index);
 			req.setAttribute("index", index);
 			req.setAttribute("endPage", endPage);
-			req.setAttribute("productList", productList);
-			req.getRequestDispatcher("/views/admin/product/list-product.jsp").forward(req, resp);
+			req.setAttribute("sellerProductList", sellerProductList);
+			req.getRequestDispatcher("/views/seller/product/list.jsp").forward(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -108,7 +111,7 @@ public class ProductListController extends HttpServlet {
 			product.setCategoryID(Integer.parseInt(req.getParameter("categoryID")));
 			product.setSellerID(Integer.parseInt(req.getParameter("sellerID")));
 			productService.insert(product);
-			resp.sendRedirect(req.getContextPath() + "/admin/product/list");
+			resp.sendRedirect(req.getContextPath() + "/seller/product/list");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -159,5 +162,6 @@ public class ProductListController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 }

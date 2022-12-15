@@ -13,13 +13,14 @@ public class ProductModel implements Serializable {
 	private String productImage;
 	private int productStatus;
 	private int categoryID;
+	private int sellerID;
 	public ProductModel() {}
 	
 	
 	
 
 	public ProductModel(int productID, String productName, int productAmount, int productPrice,
-			String productDescription, String productImage, int productStatus, int categoryID) {
+			String productDescription, String productImage, int productStatus, int categoryID, int sellerID) {
 		super();
 		this.productID = productID;
 		this.productName = productName;
@@ -29,6 +30,7 @@ public class ProductModel implements Serializable {
 		this.productImage = productImage;
 		this.productStatus = productStatus;
 		this.categoryID = categoryID;
+		this.sellerID = sellerID;
 	}
 
 
@@ -191,6 +193,28 @@ public class ProductModel implements Serializable {
 		this.categoryID = categoryID;
 	}
 
+
+
+
+	/**
+	 * @return the sellerID
+	 */
+	public int getSellerID() {
+		return sellerID;
+	}
+
+
+
+
+	/**
+	 * @param sellerID the sellerID to set
+	 */
+	public void setSellerID(int sellerID) {
+		this.sellerID = sellerID;
+	}
+
+	
+	
 
 	
 

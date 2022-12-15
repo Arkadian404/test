@@ -11,23 +11,20 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="<%=request.getContextPath()%>/home">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/seller/home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categories
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-       	<c:forEach items="${listCate}" var="list">
+       	<c:forEach items="${sellerCategory}" var="list">
           <a class="dropdown-item ${tagActive==list.categoryID ? "active" : ""}" href="<%=request.getContextPath()%>/category?categoryID=${list.categoryID}">${list.categoryName}</a>
          </c:forEach>
         </div>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="<%=request.getContextPath()%>/category?categoryID=0">Product</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link inactive" href="<%=request.getContextPath() %>/cart">Cart</a>
       </li>
       <c:if test="${ userRole != emptyRole }">
       	<c:if test="${ userRole.equalsIgnoreCase('admin')}">
@@ -36,7 +33,7 @@
                 </a></li>
          </c:if>
          <c:if test="${ userRole.equalsIgnoreCase('nguoibanhang')}">
-                <li class="nav-item"><a class="nav-link active" href="<%=request.getContextPath() %>/seller/home">
+                <li class="nav-item"><a class="nav-link active" href="<%=request.getContextPath() %>/seller/manage">
                     	Quản lý sản phẩm            
                 </a></li>
          </c:if>    
@@ -47,10 +44,6 @@
       <input value="${txtSearch}" class="form-control mr-sm-2" type="text" name="txtSearch" placeholder="Search..." aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-    <a class="btn btn-success btn-sm ml-3" href="<%=request.getContextPath() %>/cart">
-      	<i class="fa fa-shopping-cart"></i> Cart
-      	<span class="badge bagde-light">3</span>
-      </a>
      <%
      	String rootPath = request.getContextPath();
       	String username = (String)session.getAttribute("username");      

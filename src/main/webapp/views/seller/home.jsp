@@ -25,10 +25,10 @@
 				<div class="carousel-inner">
 					<div class="carousel-item active">
 						<img class="d-block w-100"
-							src="http://allonboard.no/en/wp-content/uploads/2014/02/Postcard411-855x365.jpg"
+							src="http://enjoycoffee.vn/wp-content/uploads/2020/01/coffee.2-810x524-1.jpg"
 							alt="First slide">
 					</div>
-					<c:forEach items="${list}" var="list">
+					<c:forEach items="${sellerLastProduct}" var="list">
 						<div class="carousel-item">
 							<img class="d-block w-100" src="${list.productImage}"
 								alt="Second slide"
@@ -52,25 +52,17 @@
 				<div class="card-header bg-success text-white text-uppercase">
 					<i class="fa fa-heart"></i> Top product
 				</div>
-				<img class="img-fluid border-0" src="${top.productImage }"
-					alt="${top.productDescription }" style="height: 40vh;">
+				<img class="img-fluid border-0" src="${sellerTopProduct.productImage }"
+					alt="${sellerTopProduct.productDescription }" style="height: 40vh;">
 				<div class="card-body">
 					<h4 class="card-title text-center">
-						<a href="product?productID=${top.productID}" title="View Product">${top.productName}</a>
+						<a href="product?productID=${sellerTopProduct.productID}" title="View Product">${sellerTopProduct.productName}</a>
 					</h4>
-					<c:choose>
-						<c:when test="${top.productStatus != 0 || top.productAmount > 0}">
-							<h5 class="card-subtitle text-center mb-2 text-muted">${top.productPrice}
-								vnd</h5>
-						</c:when>
-						<c:otherwise>
-							<h5 class="card-subtitle text-center mb-2 text-muted">Hết
-								hàng</h5>
-						</c:otherwise>
-					</c:choose>
+					<h5 class="card-subtitle text-center mb-2 text-muted">${sellerTopProduct.productPrice}
+						vnd</h5>
 					<div class="row">
 						<div class="col">
-							<a href="product?productID=${top.productID}"
+							<a href="product?productID=${sellerTopProduct.productID}"
 								class="btn btn-success btn-block">View</a>
 						</div>
 					</div>
@@ -90,45 +82,23 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<c:forEach items="${list}" var="product">
+						<c:forEach items="${sellerLastProduct}" var="product">
 							<div class="col-lg d-flex align-items-stretch">
 								<div class="card">
 									<img class="card-img-top" src="${product.productImage}"
 										alt="${product.productName}" style="max-height: 50vh;">
 									<div class="card-body d-flex flex-column">
 										<h4 class="card-title">
-											<a class="text-break"
-												href="product?productID=${product.productID}"
-												title="View Product">${product.productName } </a>
+											<a class="text-break" href="product?productID=${product.productID}"
+												title="View Product"
+												>${product.productName }
+												</a>
 										</h4>
-										<c:choose>
-											<c:when
-												test="${product.productStatus == 1 && product.productAmount >0}">
-												<h5 class="card-subtitle mb-2 text-muted">${product.productPrice}
-													vnd</h5>
-												<p class="card-text mb-4">${product.productDescription}</p>
-												<a href="cart.html"
-													class="btn mt-auto align-self-start btn-success btn-block">Add
-													to cart</a>
-											</c:when>
-											<c:when
-												test="${product.productStatus == 0 && product.productAmount >0}">
-												<h5 class="card-subtitle mb-2 text-muted">Không còn kinh doanh</h5>
-												<p class="card-text mb-4">${product.productDescription}</p>
-												<a href="cart.html"
-													class="btn mt-auto align-self-start btn-success btn-block disabled"
-													role="button" aria-disabled="true">Add
-													to cart</a>
-											</c:when>
-											<c:otherwise>
-												<h5 class="card-subtitle mb-2 text-muted">Hết hàng</h5>
-												<p class="card-text mb-4">${product.productDescription}</p>
-												<a href="cart.html"
-													class="btn mt-auto align-self-start btn-success btn-block disabled"
-													role="button" aria-disabled="true">Add
-													to cart</a>
-											</c:otherwise>
-										</c:choose>
+										<h5 class="card-subtitle mb-2 text-muted">${product.productPrice}</h5>
+										<p class="card-text mb-4">${product.productDescription}</p>
+										<a href="cart.html"
+											class="btn mt-auto align-self-start btn-success btn-block">Add to
+											cart</a>
 									</div>
 								</div>
 							</div>
@@ -149,7 +119,7 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<c:forEach items="${top4product}" var="p">
+						<c:forEach items="${sellerTop4Product}" var="p">
 							<div class="col-sm">
 								<div class="card">
 									<img class="card-img-top" src="${p.productImage }"
@@ -159,26 +129,13 @@
 											<a class="d-block text-truncate"
 												href="product?productID=${p.productID}" title="View Product">${p.productName }</a>
 										</h5>
-										<c:choose>
-											<c:when test="${p.productStatus == 1 && p.productAmount >0}">
-												<h6 class="card-subtitle mb-2 text-muted">${p.productPrice}
-													vnd</h6>
-											</c:when>
-											<c:when test="${p.productStatus == 0 && p.productAmount >0}">
-												<h6 class="card-subtitle mb-2 text-muted">Không còn
-													kinh doanh</h6>
-											</c:when>
-											<c:otherwise>
-												<h6 class="card-subtitle mb-2 text-muted">Hết hàng</h6>
-											</c:otherwise>
-										</c:choose>
-
+										<h6 class="card-subtitle mb-2 text-muted">${p.productPrice}vnd</h6>
 										<p class="card-text text-truncate truncate-multi">${p.productDescription}</p>
 										<div class="row">
 											<div class="col-12">
 												<a href="cart.html"
-													class="btn mt-auto align-self-start btn-success btn-block">Add
-													to cart</a>
+													class="btn mt-auto align-self-start btn-success btn-block">Add to
+													cart</a>
 											</div>
 										</div>
 									</div>

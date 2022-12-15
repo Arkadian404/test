@@ -40,9 +40,15 @@ public class LoginController extends HttpServlet {
 				if (userRole.equalsIgnoreCase("Admin")) {
 					int adminId = accountServices.findAdminId(username);
 					session.setAttribute("adminId", adminId);
+					resp.sendRedirect(req.getContextPath() + "/home");
+				} else if (userRole.equals("NguoiBanHang")) {
+					int sellerId = accountServices.findSellerId(username);
+					session.setAttribute("sellerId", sellerId);
+					resp.sendRedirect(req.getContextPath() + "/seller/home");
+				} else {
+					check = false;
+					resp.sendRedirect(req.getContextPath() + "/home");
 				}
-				check = false;
-				resp.sendRedirect(req.getContextPath() + "/home");
 			} else {
 				check = true;
 				thongBao = "Đăng nhập thất bại hãy kiểm tra lại tài khoản hoặc mật khẩu";
