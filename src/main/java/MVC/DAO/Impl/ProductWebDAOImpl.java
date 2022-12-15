@@ -325,6 +325,7 @@ public class ProductWebDAOImpl extends DBConnection implements IProductWebDAO {
 				product.setProductImage(rs.getString(6));
 				product.setProductStatus(rs.getInt(7));
 				product.setCategoryID(rs.getInt(8));
+				product.setSellerID(rs.getInt(9));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -596,6 +597,102 @@ public class ProductWebDAOImpl extends DBConnection implements IProductWebDAO {
 				ex.printStackTrace();
 			}
 			return 0;
+	}
+
+	@Override
+	public void insert(ProductModel product, int sellerId) {
+		String sql = "INSERT INTO SanPham(TenSanPham,SoLuong,GiaTien,MoTa,Anh, TinhTrang,MaDanhMuc,MaNBH) VALUES (?,?,?,?,?,?,?,?)";
+		try {
+			Connection con = super.getConnection();// kết nối datavase
+			PreparedStatement ps = con.prepareStatement(sql);// ném câu sql vào cho phát biểu prepared
+			// gán tham số
+			ps.setString(1, product.getProductName());
+			ps.setInt(2, product.getProductAmount());
+			ps.setInt(3, product.getProductPrice());
+			ps.setString(4, product.getProductDescription());
+			ps.setString(5, product.getProductImage());
+			ps.setInt(6, product.getProductStatus());
+			ps.setInt(7, product.getCategoryID());
+			ps.setInt(8, sellerId);
+			// thực thi sql
+			ps.execute();// dùng để update insert delete, còn dùng select thì executeNonQuery
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void edit(ProductModel product, int sellerId) {
+		String sql = "UPDATE SanPham set TenSanPham =?,SoLuong=?,GiaTien=?,MoTa=?,Anh=?, TinhTrang=?,MaDanhMuc=?, MaNBH=? where MaSP = ?";
+		try {
+			Connection con = super.getConnection();// kết nối datavase
+			PreparedStatement ps = con.prepareStatement(sql);// ném câu sql vào cho phát biểu prepared
+			// gán tham số
+			ps.setString(1, product.getProductName());
+			ps.setInt(2, product.getProductAmount());
+			ps.setInt(3, product.getProductPrice());
+			ps.setString(4, product.getProductDescription());
+			ps.setString(5, product.getProductImage());
+			ps.setInt(6, product.getProductStatus());
+			ps.setInt(7, product.getCategoryID());
+			ps.setInt(8, sellerId);
+			ps.setInt(9, product.getProductID());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int countByProductNameSearch(String txt, int sellerId) {
+		String sql = "select count(*) from SanPham where TenSanpham like ? and MaNBH =?";
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + txt + "%");
+			ps.setInt(2, sellerId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public List<ProductModel> searchByProductName(String txt, int sellerId, int index, int pageSize) {
+		String sql = "with temp as (select ROW_NUMBER() over (order by SoLuong desc) as r, * from SanPham where TenSanPham like ? and MaNBH =?)\n"
+				+ "select * from temp where r between ?*?-2 and ?*?";
+		List<ProductModel> products = new ArrayList<ProductModel>();
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + txt + "%");
+			ps.setInt(2, sellerId);
+			ps.setInt(3, index);
+			ps.setInt(4, pageSize);
+			ps.setInt(5, index);
+			ps.setInt(6, pageSize);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ProductModel product = new ProductModel();
+				product.setProductID(rs.getInt(2));
+				product.setProductName(rs.getString(3));
+				product.setProductAmount(rs.getInt(4));
+				product.setProductPrice(rs.getInt(5));
+				product.setProductDescription(rs.getString(6));
+				product.setProductImage(rs.getString(7));
+				product.setProductStatus(rs.getInt(8));
+				product.setCategoryID(rs.getInt(9));
+				product.setSellerID(rs.getInt(10));
+				products.add(product);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return products;
 	}
 
 }

@@ -16,7 +16,9 @@ public interface ICategoryServices {
 	int count();
 	public List<CategoryModel> searchByCategoryName(String txtSearch, int index, int pageSize);
 	int countByCategoryNameSearch(String txtSearch);
+	int countByCategoryNameSearch(String txtSearch, int sellerId);
 	public List<CategoryModel> findAllCategoryBySellerID(int sellerId);
 	List<CategoryModel> pagingCategoryBySellerID(int sellerId, int index);
 	int countAllBySellerID(int sellerId);
+	List<CategoryModel> searchByCategoryName(String txtSearch, int sellerId, int index, int pageSize);
 }

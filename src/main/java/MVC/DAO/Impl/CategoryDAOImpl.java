@@ -300,4 +300,52 @@ public class CategoryDAOImpl extends DBConnection implements ICategoryDAO {
 		}
 		return categoryList;
 	}
+	
+	@Override
+	public int countByCategoryNameSearch(String txtSearch, int sellerId) {
+		String sql = "select count(distinct dm.MaDanhMuc) as tb from SanPham as sp  join DanhMuc as dm on sp.MaDanhMuc = dm.MaDanhMuc where dm.TenDanhMuc like ?  and sp.MaNBH = ? ";
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + txtSearch + "%");
+			ps.setInt(2, sellerId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
+	@Override
+	public List<CategoryModel> searchByCategoryName(String txtSearch, int sellerId, int index, int pageSize) {
+		String sql = "with temp as (select distinct dm.MaDanhMuc,dm.TenDanhMuc, dm.TinhTrang, DENSE_RANK() over (ORDER BY dm.MaDanhMuc)  as r from SanPham as sp join DanhMuc as dm\n"
+				+ "on sp.MaDanhMuc = dm.MaDanhMuc where dm.TenDanhMuc like ? and sp.MaNBH = ?)\n"
+				+ "select * from temp where r between ?*?-2 and ?*?";
+		List<CategoryModel> categories = new ArrayList<CategoryModel>();
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + txtSearch + "%");
+			ps.setInt(2, sellerId);
+			ps.setInt(3, index);
+			ps.setInt(4, pageSize);
+			ps.setInt(5, index);
+			ps.setInt(6, pageSize);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				CategoryModel category = new CategoryModel();
+				category.setCategoryID(rs.getInt(1));
+				category.setCategoryName(rs.getString(2));
+				category.setStatus(rs.getInt(3));
+				categories.add(category);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return categories;
+	}
 }

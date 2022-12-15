@@ -98,6 +98,8 @@ public class SellerProductController extends HttpServlet {
 	protected void doPost_Create(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		ProductModel product = new ProductModel();
+		HttpSession session = req.getSession();
+		int sellerId = (int)session.getAttribute("sellerId");
 		try {
 			req.setCharacterEncoding("utf-8");
 			resp.setContentType("text/html");
@@ -109,8 +111,7 @@ public class SellerProductController extends HttpServlet {
 			product.setProductImage(req.getParameter("productImage"));
 			product.setProductStatus(Integer.parseInt(req.getParameter("productStatus")));
 			product.setCategoryID(Integer.parseInt(req.getParameter("categoryID")));
-			product.setSellerID(Integer.parseInt(req.getParameter("sellerID")));
-			productService.insert(product);
+			productService.insert(product, sellerId);
 			resp.sendRedirect(req.getContextPath() + "/seller/product/list");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,6 +121,8 @@ public class SellerProductController extends HttpServlet {
 	protected void doPost_Update(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		PrintWriter out = resp.getWriter();
+		HttpSession session = req.getSession();
+		int sellerId = (int)session.getAttribute("sellerId");
 		try {
 			req.setCharacterEncoding("utf-8");
 			resp.setContentType("text/html");
@@ -134,8 +137,7 @@ public class SellerProductController extends HttpServlet {
 			product.setProductImage(req.getParameter("productImage"));
 			product.setProductStatus(Integer.parseInt(req.getParameter("productStatus")));
 			product.setCategoryID(Integer.parseInt(req.getParameter("categoryID")));
-			product.setSellerID(Integer.parseInt(req.getParameter("sellerID")));
-			productService.edit(product);
+			productService.edit(product, sellerId);
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Sửa thông tin sản phẩm thành công!');");
 			out.println("</script>");

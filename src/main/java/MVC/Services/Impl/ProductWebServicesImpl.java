@@ -153,4 +153,28 @@ public class ProductWebServicesImpl implements IProductWebServices {
 		// TODO Auto-generated method stub
 		return productDAO.countAllBySellerID(sellerId);
 	}
+	
+	@Override
+	public void edit(ProductModel product, int sellerId) {
+		productDAO.edit(product, sellerId);
+		
+	}
+	
+	@Override
+	public void insert(ProductModel product, int sellerId) {
+		productDAO.insert(product, sellerId);
+		
+	}
+	
+	@Override
+	public int countByProductNameSearch(String txt, int sellerId) {
+		// TODO Auto-generated method stub
+		return productDAO.countByProductNameSearch(txt, sellerId);
+	}
+	
+	@Override
+	public List<ProductModel> searchByProductName(String txt, int sellerId, int index, int pageSize) {
+		// TODO Auto-generated method stub
+		return productDAO.searchByProductName(txt, sellerId, index, pageSize);
+	}
 }

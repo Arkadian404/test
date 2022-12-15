@@ -7,6 +7,8 @@ import MVC.Models.ProductModel;
 public interface IProductWebServices {
 	void insert(ProductModel product);
 	void edit(ProductModel product);
+	void insert(ProductModel product, int sellerId);
+	void edit(ProductModel product, int sellerId);
 	void delete(int id);
 	
 	List<ProductModel> getTop4Product();
@@ -23,7 +25,9 @@ public interface IProductWebServices {
 	int countAll();
 	int countByCategoryID(int id);
 	int countByProductNameSearch(String txt);
+	int countByProductNameSearch(String txt, int sellerId);
 	List<ProductModel> searchByProductName(String txt, int index, int pageSize);
+	List<ProductModel> searchByProductName(String txt, int sellerId, int index, int pageSize);
 	List<ProductModel> pagingProduct(int index);
 	List<ProductModel> pagingProduct(int sellerId, int index);
 	List<ProductModel> pagingProductByCateID(int id, int index);

@@ -35,7 +35,6 @@ public class AdminSearchController extends HttpServlet {
 	
 	
 	protected void doPost_Category(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		try {
 			resp.setContentType("text/html;charset=UTF-8");
 			req.setCharacterEncoding("utf-8");

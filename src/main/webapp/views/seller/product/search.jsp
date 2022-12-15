@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="row">
-							<a href="<%=request.getContextPath()%>/seller/manage"
+							<a href="<%=request.getContextPath()%>/seller/product/list"
 								style="margin-right: 20px;"> <svg
 									xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-arrow-return-left"
@@ -23,14 +23,10 @@
 							</h2>
 						</div>
 					</div>
-					<div class="col-sm-4">
-						<a href="#addProductModal" class="btn btn-success"
-							data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm
-								sản phẩm</span></a>
-					</div>
+					<div class="col-sm-4"></div>
 					<div class="col-sm-2">
 						<form class="form-inline"
-							action="${pageContext.request.contextPath}/admin/product/search?action=product&index=1"
+							action="${pageContext.request.contextPath}/seller/product/search?action=product&index=1"
 							method="post">
 							<div class="input-group input-group-sm">
 								<input type="text" value="${txtSearch}" name="txtSearch"
@@ -92,16 +88,16 @@
 				<ul class="pagination">
 					<c:if test="${index > 1}">
 						<li class="page-item disabled"><a
-							href="${pageContext.request.contextPath}/seller/product/list?index=${index-1}">Previous</a></li>
+							href="${pageContext.request.contextPath}/seller/product/search?action=product&index=${index-1}&txtSearch=${txtSearch}">Previous</a></li>
 					</c:if>
 					<c:forEach begin="1" end="${endPage}" var="i">
 						<li class="page-item ${index ==i ?"active" : "" }"><a
-							href="${pageContext.request.contextPath}/seller/product/list?index=${i}"
+							href="${pageContext.request.contextPath}/seller/product/search?action=product&index=${i}&txtSearch=${txtSearch}"
 							class="page-link">${i}</a></li>
 					</c:forEach>
 					<c:if test="${index < endPage }">
 						<li class="page-item"><a
-							href="${pageContext.request.contextPath}/seller/product/list?index=${index+1}"
+							href="${pageContext.request.contextPath}/seller/product/search?action=product&index=${index+1}&txtSearch=${txtSearch}"
 							class="page-link">Next</a></li>
 					</c:if>
 					<!---<c:if test="${index >1}">
@@ -271,7 +267,7 @@
 										function() {
 											var id = $(this).parent().find(
 													"#id").val();
-											//alert(id);
+											/*alert(id);*/
 											$
 													.ajax({
 														type : 'GET',

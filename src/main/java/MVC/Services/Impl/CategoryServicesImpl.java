@@ -81,5 +81,15 @@ public class CategoryServicesImpl  implements ICategoryServices {
 		return cateDAO.pagingCategoryBySellerID(sellerId, index);
 	}
 
-
+	@Override
+	public int countByCategoryNameSearch(String txtSearch, int sellerId) {
+		// TODO Auto-generated method stub
+		return cateDAO.countByCategoryNameSearch(txtSearch, sellerId);
+	}
+	
+	@Override
+	public List<CategoryModel> searchByCategoryName(String txtSearch, int sellerId, int index, int pageSize) {
+		// TODO Auto-generated method stub
+		return cateDAO.searchByCategoryName(txtSearch, sellerId, index, pageSize);
+	}
 }
