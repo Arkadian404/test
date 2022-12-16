@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-sm-2">
 						<form class="form-inline"
-							action="${pageContext.request.contextPath}/admin/product/search?action=product&index=1"
+							action="${pageContext.request.contextPath}/seller/product/search?action=product&index=1"
 							method="post">
 							<div class="input-group input-group-sm">
 								<input type="text" value="${txtSearch}" name="txtSearch"

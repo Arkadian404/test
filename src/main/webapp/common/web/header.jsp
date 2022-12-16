@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp" %>
-
+<%@ page import="MVC.Models.CartDetailModel" %>
+<%@ page import="java.util.List" %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="home">Filtro</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +20,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
        	<c:forEach items="${listCate}" var="list">
+       		<c:if test="${list.status !=0 }">
           <a class="dropdown-item ${tagActive==list.categoryID ? "active" : ""}" href="<%=request.getContextPath()%>/category?categoryID=${list.categoryID}">${list.categoryName}</a>
+          </c:if>
          </c:forEach>
         </div>
       </li>
@@ -47,9 +50,21 @@
       <input value="${txtSearch}" class="form-control mr-sm-2" type="text" name="txtSearch" placeholder="Search..." aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+    
+    <%! int cartSize; %>
+    <%                               	
+               		List<CartDetailModel> cart = (List<CartDetailModel>)session.getAttribute("cart");
+                	if (cart != null)
+                	{
+						cartSize = cart.size();               		                		
+                	}
+                	else 
+                		cartSize = 0;
+     %>
+    
     <a class="btn btn-success btn-sm ml-3" href="<%=request.getContextPath() %>/cart">
       	<i class="fa fa-shopping-cart"></i> Cart
-      	<span class="badge bagde-light">3</span>
+      	<span class="badge bagde-light"><%=cartSize %></span>
       </a>
      <%
      	String rootPath = request.getContextPath();

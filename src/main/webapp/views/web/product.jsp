@@ -43,7 +43,7 @@
 			<div class="card bg-light mb-3">
 				<div class="card-body">
 					<div class="d-flex justify-content-center">
-						<h2 class="text-center">${productByID.productName}</h2>
+						<h2 class="text-center">${productByID.productID} v ${productByID.productName}</h2>
 					</div>
 					<c:choose>
 						<c:when
@@ -68,25 +68,28 @@
 									<button type="button"
 										class="quantity-left-minus btn btn-danger btn-number"
 										data-type="minus" data-field=""
-										onclick="func_SubtractQuantity">
+										onclick="func_SubtractQuantity()">
 										<i class="fa fa-minus"></i>
 									</button>
 								</div>
 								<input type="text" class="form-control" id="quantity"
-									name="quantity" min="1" max="50" value="${currentQuantity}">
+									name="quantity" min="1" max="50" value="${productAmountInCart}">
 								<div class="input-group-append">
 									<button type="button"
 										class="quantity-right-plus btn btn-success btn-number"
-										data-type="plus" data-field="" onclick="func_AddQuantity">
+										data-type="plus" data-field="" onclick="func_AddQuantity()">
 										<i class="fa fa-plus"></i>
 									</button>
 								</div>
 							</div>
 						</div>
-						<a href="cart.html"
-							class="${productByID.productStatus != 0 ? "btn btn-success btn-lg btn-block text-uppercase" : "btn btn-success btn-lg btn-block text-uppercase disabled" } "> <i
-							class="fa fa-shopping-cart"></i> Add To Cart
-						</a>
+						<button id="updateProductQuantityBtn"
+							onclick="func_changeProductQuantityInCart()" type="button"
+							class="${productByID.productStatus != 0 ? " btn btn-success
+							btn-lg btn-block text-uppercase" : "btn btn-success btn-lg
+							btn-blocktext-uppercasedisabled" } ">
+							<i class="fa fa-shopping-cart"></i> Add To Cart
+						</button>
 					</form>
 					<div class="product_rassurance">
 						<ul class="list-inline">
@@ -189,17 +192,11 @@
 	</div>
 </div>
 
-
-
-
-
-
-
 <script>
 	let maxQuantity = parseInt(document.getElementById("quantity").max, 10);
 	let minQuantity = parseInt(document.getElementById("quantity").min, 10);
-	const quantity = document.getElementById("quantity");
 
+	const element = document.getElementById("quantity");
 	const func_SubtractQuantity = function() {
 		let quantityString = quantity.value;
 		quantityInt = parseInt(quantityString, 10) - 1;
@@ -207,18 +204,28 @@
 		if (quantityInt < minQuantity) {
 			alert("Số lượng không hợp lệ");
 		} else {
-			quantity.value = quantity.toString();
+			element.value = quantityInt.toString();
 		}
 	}
 
 	const func_AddQuantity = function() {
 		let quantityString = quantity.value;
-		quantityInt = parseInt(quantityString, 10) - 1;
+		quantityInt = parseInt(quantityString, 10) + 1;
 
 		if (quantityInt > maxQuantity) {
-			alert("Số lượng không hợp lệ");
+			alert("Vượt mức cho phép");
 		} else {
-			quantity.value = quantity.toString();
+			element.value = quantityInt.toString();
 		}
+	}
+
+	const func_changeProductQuantityInCart = function() {
+		var changedProductQuantityInCart = document.getElementById("quantity").value;
+		var pID = "${productByID.productID}";
+		console.log("Hello");
+		var root = "${pageContext.request.contextPath}"
+		window.location.href = root + "/cart?productID=" + pID
+				+ "&action=updateToCart&productAmount="
+				+ changedProductQuantityInCart;
 	}
 </script>

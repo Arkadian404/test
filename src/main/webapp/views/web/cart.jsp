@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file ="/common/taglib.jsp" %>
+<%@ page import="MVC.Models.CartDetailModel" %>
+<%@ page import="java.util.List" %>
 
 <section class="jumbotron text-center">
     <div class="container">
@@ -9,7 +11,7 @@
 </section>
 
 <c:if test="${cart == null }">
-	<h1>Bạn chưa mua gì cả </h1>
+	<h1 class="text-center mb-4">Bạn chưa mua gì cả!!!</h1>
 </c:if>
 <c:if test="${cart.size() == 0 }">
 	<h1>Bạn chưa mua gì cả </h1>
@@ -22,46 +24,45 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col"> </th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Tồn kho</th>
+                            <th scope="col" class="text-center">Số lượng</th>
+                            <th scope="col" class="text-right">Giá tiền</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <%! float totalPrice; %>
+	                    	<%               
+	                    		totalPrice = 0;
+	                    		List<CartDetailModel> cart = (List<CartDetailModel>)session.getAttribute("cart");
+	                    		for(CartDetailModel cartItem: cart) {                    			
+	                    			int amount = cartItem.getAmount();
+	                    			float productPricePerUnit = cartItem.getProduct().getProductPrice();
+	                    			totalPrice += amount * productPricePerUnit;
+	                    			out.println("<span> " + amount + "c</span>");
+	                    			out.println("<span> " +productPricePerUnit + "c</span><br>");
+	                    		}
+	                    	%>
+                    
+                    	<c:forEach items="${cart}" var="cartItem">
                         <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Dada</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">124,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                            <td><img src="${cartItem.product.productImage }" style="height:100px;width:100px;object-fit:cover;" /> </td>
+                            <td>${cartItem.product.productName}</td>
+                            <td>Số lượng hàng trong kho</td>
+                            <td><input class="form-control" type="text" value="${cartItem.amount}" /></td>
+                            <td class="text-right">${cartItem.product.productPrice} vnd</td>
+                            <td class="text-right"><a class="btn btn-sm btn-danger" href="<%=request.getContextPath() %>/cart?action=remove&productID=${cartItem.product.productID}"><i class="fa fa-trash"></i> </a> </td>
                         </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Toto</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">33,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Titi</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">70,00 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
+                        </c:forEach> 
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>Sub-Total</td>
-                            <td class="text-right">255,90 €</td>
+                            <td class="text-right"><%=totalPrice %> vnd</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -69,7 +70,7 @@
                             <td></td>
                             <td></td>
                             <td>Shipping</td>
-                            <td class="text-right">6,90 €</td>
+                            <td class="text-right">6,90 vnd</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -77,7 +78,7 @@
                             <td></td>
                             <td></td>
                             <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>346,90 €</strong></td>
+                            <td class="text-right"><strong><%=totalPrice+6.90 %> vnd</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -86,10 +87,25 @@
         <div class="col mb-2">
             <div class="row">
                 <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light">Continue Shopping</button>
+					<a class="btn btn-block btn-light" href="<%=request.getContextPath() %>/home">Continue Shopping</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                    <c:if test="${isLogin != null }">
+		               	<c:set var = "isLogin" value = "false"/>
+		               	<c:set var = "username" value = '${session.getAttribute("username")}'/>                    
+	               	</c:if>
+	               	<c:if test="${username != null }">
+	                    <c:set var = "isLogin" value = "true"/>
+	               	</c:if>
+	               	<c:if test="${username == null }">
+	                    <c:set var = "isLogin" value = "false"/>
+	               	</c:if>
+	               	<c:if test="${isLogin == true }">
+	                    <a class="btn btn-block btn-success btn-lg" href="<%=request.getContextPath() %>/order">Order</a>
+	               	</c:if>
+	               	<c:if test="${isLogin == false }">
+	                    <a class="btn btn-block btn-success btn-lg" href="<%=request.getContextPath() %>/views/login.jsp">Order</a>
+	               	</c:if>
                 </div>
             </div>
         </div>

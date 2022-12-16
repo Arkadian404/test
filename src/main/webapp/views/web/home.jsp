@@ -107,26 +107,26 @@
 												<h5 class="card-subtitle mb-2 text-muted">${product.productPrice}
 													vnd</h5>
 												<p class="card-text mb-4">${product.productDescription}</p>
-												<a href="cart.html"
+												<a
+													href="<%=request.getContextPath() %>/cart?productID=${product.productID}&action=addToCart"
 													class="btn mt-auto align-self-start btn-success btn-block">Add
 													to cart</a>
 											</c:when>
 											<c:when
 												test="${product.productStatus == 0 && product.productAmount >0}">
-												<h5 class="card-subtitle mb-2 text-muted">Không còn kinh doanh</h5>
+												<h5 class="card-subtitle mb-2 text-muted">Không còn
+													kinh doanh</h5>
 												<p class="card-text mb-4">${product.productDescription}</p>
 												<a href="cart.html"
 													class="btn mt-auto align-self-start btn-success btn-block disabled"
-													role="button" aria-disabled="true">Add
-													to cart</a>
+													role="button" aria-disabled="true">Add to cart</a>
 											</c:when>
 											<c:otherwise>
 												<h5 class="card-subtitle mb-2 text-muted">Hết hàng</h5>
 												<p class="card-text mb-4">${product.productDescription}</p>
 												<a href="cart.html"
 													class="btn mt-auto align-self-start btn-success btn-block disabled"
-													role="button" aria-disabled="true">Add
-													to cart</a>
+													role="button" aria-disabled="true">Add to cart</a>
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -163,24 +163,44 @@
 											<c:when test="${p.productStatus == 1 && p.productAmount >0}">
 												<h6 class="card-subtitle mb-2 text-muted">${p.productPrice}
 													vnd</h6>
+												<p class="card-text text-truncate truncate-multi">${p.productDescription}</p>
+												<div class="row">
+													<div class="col-12">
+														<a
+															href="<%=request.getContextPath() %>/cart?productID=${p.productID}&action=addToCart"
+															class="btn mt-auto align-self-start btn-success btn-block">Add
+															to cart</a>
+													</div>
+												</div>
 											</c:when>
 											<c:when test="${p.productStatus == 0 && p.productAmount >0}">
 												<h6 class="card-subtitle mb-2 text-muted">Không còn
 													kinh doanh</h6>
+												<p class="card-text text-truncate truncate-multi">${p.productDescription}</p>
+												<div class="row">
+													<div class="col-12">
+														<a
+															href="<%=request.getContextPath() %>/cart?productID=${p.productID}&action=addToCart"
+															class="btn mt-auto align-self-start btn-success btn-block disabled">Add
+															to cart</a>
+													</div>
+												</div>
 											</c:when>
 											<c:otherwise>
 												<h6 class="card-subtitle mb-2 text-muted">Hết hàng</h6>
+												<p class="card-text text-truncate truncate-multi">${p.productDescription}</p>
+												<div class="row">
+													<div class="col-12">
+														<a
+															href="<%=request.getContextPath() %>/cart?productID=${p.productID}&action=addToCart"
+															class="btn mt-auto align-self-start btn-success btn-block disabled">Add
+															to cart</a>
+													</div>
+												</div>
 											</c:otherwise>
 										</c:choose>
 
-										<p class="card-text text-truncate truncate-multi">${p.productDescription}</p>
-										<div class="row">
-											<div class="col-12">
-												<a href="cart.html"
-													class="btn mt-auto align-self-start btn-success btn-block">Add
-													to cart</a>
-											</div>
-										</div>
+
 									</div>
 								</div>
 							</div>

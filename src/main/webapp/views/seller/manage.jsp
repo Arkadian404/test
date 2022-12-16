@@ -12,6 +12,10 @@
 				href="<%=request.getContextPath()%>/seller/product/list">
 					<h4>Quản lý sản phẩm</h4>
 			</a></li>
+			<li class="list-group-item"><a
+				href="<%=request.getContextPath()%>/seller/order/list">
+					<h4>Quản lý đơn hàng</h4>
+			</a></li>
 		</ul>
 	</div>
 </div>
